@@ -34,31 +34,60 @@ const playerCreator = ((name) => {
     }
 });
 
-const render = ((input) => {
-    let square = document.querySelector("#gameboard").children
-    for (let i = 0; i<input.length; i++) {
-        square[i].textContent = input[i]
-    }
-})
-
-const displayController = (() => {
-    render(gameBoard.gameArray)
-})
-
+// Let gameArray = document.queryselectorall("button").textcontent
 const gameBoard = (() => {
     let gameArray = ["X","X","O","X","O","O","O","X","X"]
+
+    let addMark = (() => {
+        if (game.turnCounter === true) {
+            gameBoard.gameArray[2] = "X"
+        }
+        else if (game.turnCounter === false) {
+            gameBoard.gameArray[2] = "O"
+        }
+        game.turnCounter = !game.turnCounter
+    })
+
     return {
-        gameArray
+        gameArray,
+        addMark
     }
     
 })()
+
+const displayController = (() => {
+    const renderTest = ((input) => {
+        let square = document.querySelector("#gameboard").children
+        for (let i = 0; i<input.length; i++) {
+            square[i].textContent = input[i]
+        }
+    })
+
+    return {renderTest}
+})();
 
 const game = (() => {
     let players = {
         player1 : playerCreator("Alex"),
         player2 : playerCreator("Josh")
     }
+    let turnCounter = true
+
+    const gridButtons = document.querySelectorAll("grid button")
+    const clickEvent = ((item,index) => {
+        console.log(item)
+        console.log(index)
+
+    })
+    const clickEventAdder = ((item, index) => {
+        gridButtons[index].addEventListener("click", function() {
+            clickEvent(item,index)
+        })
+    })
+    gridButtons.forEach(clickEventAdder)
     return {
-        players
+        players,
+        turnCounter,
+        gridButtons
     }
 })();
