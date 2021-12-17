@@ -36,16 +36,21 @@ const playerCreator = ((name) => {
 
 // Let gameArray = document.queryselectorall("button").textcontent
 const gameBoard = (() => {
-    let gameArray = ["X","X","O","X","O","O","O","X","X"]
+    let gameArray = ["","","","","","","","",""]
 
-    let addMark = (() => {
-        if (game.turnCounter === true) {
-            gameBoard.gameArray[2] = "X"
+    let addMark = ((item,index) => {
+        if (game.gridButtons[index].textContent === "X" || game.gridButtons[index].textContent === "O") {
+            return
         }
-        else if (game.turnCounter === false) {
-            gameBoard.gameArray[2] = "O"
+        if (game.turnCounter === true) {
+            gameBoard.gameArray[index] = "X"
+        }
+        else {
+            gameBoard.gameArray[index] = "O"
         }
         game.turnCounter = !game.turnCounter
+        displayController.render(gameBoard.gameArray)
+        game.gameStateCheck()
     })
 
     return {
@@ -56,14 +61,14 @@ const gameBoard = (() => {
 })()
 
 const displayController = (() => {
-    const renderTest = ((input) => {
+    const render = ((input) => {
         let square = document.querySelector("#gameboard").children
         for (let i = 0; i<input.length; i++) {
             square[i].textContent = input[i]
         }
     })
 
-    return {renderTest}
+    return {render}
 })();
 
 const game = (() => {
@@ -74,20 +79,34 @@ const game = (() => {
     let turnCounter = true
 
     const gridButtons = document.querySelectorAll("grid button")
-    const clickEvent = ((item,index) => {
-        console.log(item)
-        console.log(index)
 
-    })
     const clickEventAdder = ((item, index) => {
         gridButtons[index].addEventListener("click", function() {
-            clickEvent(item,index)
+            gameBoard.addMark(item,index)
         })
     })
     gridButtons.forEach(clickEventAdder)
+
+    const gameStateCheck = (() => {
+        for (let i = 2; i>0; i--) {
+            if (i === 2) {
+                let letter = "X"
+            }
+            if (i ===1) {
+                let letter = "O"
+            }
+            // win condition array wise: 1-2-3,1-4-7,1-5-9,
+            if (
+                game.gameArray
+            ) {
+                
+            }
+        }
+    })
     return {
         players,
         turnCounter,
-        gridButtons
+        gridButtons,
+        gameStateCheck
     }
 })();
