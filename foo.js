@@ -77,7 +77,8 @@ const game = (() => {
         player2 : playerCreator("Josh")
     }
     let turnCounter = true
-
+    let isWon = false
+    let isTie = false
     const gridButtons = document.querySelectorAll("grid button")
 
     const clickEventAdder = ((item, index) => {
@@ -88,25 +89,55 @@ const game = (() => {
     gridButtons.forEach(clickEventAdder)
 
     const gameStateCheck = (() => {
+        let letter
         for (let i = 2; i>0; i--) {
             if (i === 2) {
-                let letter = "X"
+                letter = "X"
             }
             if (i ===1) {
-                let letter = "O"
+                letter = "O"
             }
-            // win condition array wise: 1-2-3,1-4-7,1-5-9,
             if (
-                game.gameArray
+                (gameBoard.gameArray[0] === letter &&
+                gameBoard.gameArray[1] === letter &&
+                gameBoard.gameArray[2] === letter) ||
+                (gameBoard.gameArray[0] === letter &&
+                gameBoard.gameArray[3] === letter &&
+                gameBoard.gameArray[6] === letter) ||
+                (gameBoard.gameArray[0] === letter &&
+                gameBoard.gameArray[4] === letter &&
+                gameBoard.gameArray[8] === letter) ||
+                (gameBoard.gameArray[1] === letter &&
+                gameBoard.gameArray[4] === letter &&
+                gameBoard.gameArray[7] === letter) ||
+                (gameBoard.gameArray[2] === letter &&
+                gameBoard.gameArray[5] === letter &&
+                gameBoard.gameArray[8] === letter) ||
+                (gameBoard.gameArray[2] === letter &&
+                gameBoard.gameArray[4] === letter &&
+                gameBoard.gameArray[6] === letter) ||
+                (gameBoard.gameArray[6] === letter &&
+                gameBoard.gameArray[7] === letter &&
+                gameBoard.gameArray[8] === letter) ||
+                (gameBoard.gameArray[3] === letter &&
+                gameBoard.gameArray[4] === letter &&
+                gameBoard.gameArray[5] === letter)
             ) {
-                
+
+                console.log("You won")
+                isWon = true
             }
+        }
+        if (gameBoard.gameArray.includes("") === false && isWon === false) {
+            isTie = true
         }
     })
     return {
         players,
         turnCounter,
         gridButtons,
-        gameStateCheck
+        gameStateCheck,
+        isWon,
+
     }
 })();
