@@ -124,7 +124,6 @@ const game = (() => {
                 gameBoard.gameArray[5] === letter)
             ) {
 
-                console.log("You won")
                 isWon = true
             }
         }
