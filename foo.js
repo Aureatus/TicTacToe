@@ -1,32 +1,59 @@
 /*
-1. Gameboard
-    1.1 Create Gameboard Object(module)
-    1.2 Create Gameboard Array inside of Gameboard Object
-
-2. Players
-    2.1 Create Player objects(2),(Factory Function)
-    2.2 Create name property inside of Player object.
-
-3. GameFlow
-    3.1 Create GameFlow object
-
-4. displayController
-    4.1 Create function(Factory Function) that renders contents of
-    gameboardArray to webpage.
-
-5. playerMark
-    5.1 Create functions that searches dom for
-        grid elements, adds click eventHandler with mark function executed
-        on click.(Should place a marker on clicked element.)
-    5.2 THINK WHERE EACH BIT SHOULD RESIDE(IN GAME,PLAYER OR GAMEBOARD
-        OBJECTS)
-6 interfaceInputs
-        6.1 allow player to input name
-        6.2 include start/restart button
-        6.3 add display element to congratulate winner
+1. 
 */
 
-const playerCreator = ((name) => {
+const TicTacToe = ((name1, name2) => {
+    let gridArray = new Array(9).fill("")
+    player1 = {
+        name: name1,
+        icon: "X"
+    }
+    player2 = {
+        name: name2,
+        icon: "O"
+    }
+    players = {
+        player1,
+        player2
+    }
+    return {
+        gridArray,
+        players
+    }
+})
+
+const gameInitalize = (() => {
+    const startButton = document.querySelector(".start")
+    startButton.addEventListener("click", () => {
+        const player1Input = document.querySelector("#player1")
+        const player2Input  = document.querySelector("#player2")
+        let player1Name = player1Input.value
+        let player2Name = player2Input.value
+        if (!player1Name.trim()) {
+            return
+        }
+        if (!player2Name.trim()) {
+            return
+        }
+        TicTacToe(player1Name, player2Name)
+        const nameInputs = document.querySelector("nameInputs")
+        nameInputs.remove()
+        /*
+        PLAYER INPUT RECONSTRUCTOR
+        document.querySelector("container").append(nameInputs)
+        document.querySelector("nameInputs").style.order = 0
+        document.querySelector("gamestatebuttons").style.order = 1
+        document.querySelector("grid").style.order = 2
+        */
+    })
+})()
+
+
+
+
+
+
+/*const playerCreator = ((name) => {
     this.name = name
 
     return {
@@ -140,3 +167,4 @@ const game = (() => {
 
     }
 })();
+*/
