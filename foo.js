@@ -36,27 +36,27 @@ const gameInitalize = (() => {
             return
         }
         TicTacToe(player1Name, player2Name)
-        const nameInputs = document.querySelector("nameInputs")
-        nameInputs.remove()
-        let nameDisplayContainer = document.createElement("nameDisplay")
-        document.querySelector("container").append(nameDisplayContainer)
+
+        document.querySelector("nameInputs").remove()
+        let playerDisplayContainer = document.createElement("playerDisplay")
+        document.querySelector("container").append(playerDisplayContainer)
 
         let player1Display = document.createElement("player1Display")
-        nameDisplayContainer.appendChild(player1Display)
+        playerDisplayContainer.appendChild(player1Display)
         player1Display.append(document.createElement("playerName"))
-        document.querySelector("player1Display playerName").textContent =  "Player 1:" + player1.name
         player1Display.append(document.createElement("playerIcon"))
-        document.querySelector("player1Display playerIcon").textContent = "Icon:" + player1.icon
+        player1Display.firstChild.textContent =  "Player 1:" + player1.name
+        player1Display.lastChild.textContent = "Icon:" + player1.icon
 
         let player2Display = document.createElement("player2Display")
-        nameDisplayContainer.appendChild(player2Display)
+        playerDisplayContainer.appendChild(player2Display)
         player2Display.append(document.createElement("playerName"))
-        document.querySelector("player2Display playerName").textContent =  "Player 2:" + player2.name
         player2Display.append(document.createElement("playerIcon"))
-        document.querySelector("player2Display playerIcon").textContent = "Icon:" + player2.icon
+        player2Display.firstChild.textContent =  "Player 2:" + player2.name
+        player2Display.lastChild.textContent = "Icon:" + player2.icon
 
 
-        document.querySelector("nameDisplay").style.order = 0
+        document.querySelector("playerDisplay").style.order = 0
         document.querySelector("gamestatebuttons").style.order = 1
         document.querySelector("grid").style.order = 2
 
@@ -66,7 +66,6 @@ const gameInitalize = (() => {
 
 
 /*
-// Let gameArray = document.queryselectorall("button").textcontent
 const gameBoard = (() => {
     let gameArray = ["","","","","","","","",""]
 
