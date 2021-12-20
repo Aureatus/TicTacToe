@@ -38,29 +38,34 @@ const gameInitalize = (() => {
         TicTacToe(player1Name, player2Name)
         const nameInputs = document.querySelector("nameInputs")
         nameInputs.remove()
-        /*
-        PLAYER INPUT RECONSTRUCTOR
-        document.querySelector("container").append(nameInputs)
-        document.querySelector("nameInputs").style.order = 0
+        let nameDisplayContainer = document.createElement("nameDisplay")
+        document.querySelector("container").append(nameDisplayContainer)
+
+        let player1Display = document.createElement("player1Display")
+        nameDisplayContainer.appendChild(player1Display)
+        player1Display.append(document.createElement("playerName"))
+        document.querySelector("player1Display playerName").textContent =  "Player 1:" + player1.name
+        player1Display.append(document.createElement("playerIcon"))
+        document.querySelector("player1Display playerIcon").textContent = "Icon:" + player1.icon
+
+        let player2Display = document.createElement("player2Display")
+        nameDisplayContainer.appendChild(player2Display)
+        player2Display.append(document.createElement("playerName"))
+        document.querySelector("player2Display playerName").textContent =  "Player 2:" + player2.name
+        player2Display.append(document.createElement("playerIcon"))
+        document.querySelector("player2Display playerIcon").textContent = "Icon:" + player2.icon
+
+
+        document.querySelector("nameDisplay").style.order = 0
         document.querySelector("gamestatebuttons").style.order = 1
         document.querySelector("grid").style.order = 2
-        */
+
+        document.querySelector(".start").remove()
     })
 })()
 
 
-
-
-
-
-/*const playerCreator = ((name) => {
-    this.name = name
-
-    return {
-        name
-    }
-});
-
+/*
 // Let gameArray = document.queryselectorall("button").textcontent
 const gameBoard = (() => {
     let gameArray = ["","","","","","","","",""]
