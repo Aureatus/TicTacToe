@@ -18,3 +18,21 @@ grid {
     grid-template-rows:repeat(3, 150px);
     grid-template-columns: repeat(3,150px);
 }
+
+namedisplay  {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 450px;
+}
+
+player1Display {
+    display: flex;
+    flex-direction: column;
+}
+
+player2Display {
+    display: flex;
+    flex-direction: column;
+}
