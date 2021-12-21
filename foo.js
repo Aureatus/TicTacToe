@@ -1,28 +1,100 @@
-/*
-1. 
-*/
-
-const TicTacToe = ((name1, name2) => {
-    let gridArray = new Array(9).fill("")
-    player1 = {
-        name: name1,
-        icon: "X"
-    }
-    player2 = {
-        name: name2,
-        icon: "O"
-    }
-    players = {
-        player1,
-        player2
-    }
+const Player = (name, icon) => {
+    const getName = () => name
+    const getIcon = () => icon
     return {
-        gridArray,
-        players
+        getName,
+        getIcon,
     }
-})
+}
 
-const gameInitalize = (() => {
+const gameFlow =  () => {
+    const player1 = Player("Alex","X")
+    const player2 = Player("Josh","O")
+    let board = new Array(9).fill("")
+    const winConditions = [
+        [0,1,2],
+        [0,3,6],
+        [0,4,8],
+        [1,4,7],
+        [2,5,8],
+        [2,4,6],
+        [6,7,8],
+        [3,4,5],
+    ]
+    let currentPlayer = player1
+    const playerSwitch = () => {
+        if (currentPlayer === player1) {
+            currentPlayer = player2
+        }
+        else currentPlayer = player1
+    }
+    const isWin = () => {
+        for (let i = winConditions.length-1; i>=0; i--) {
+            if (board.includes(currentPlayer.getIcon(),winConditions[i][0]) ||
+                board.includes(currentPlayer.getIcon(),winConditions[i][1]) ||
+                board.includes(currentPlayer.getIcon(),winConditions[i][2])
+            )
+            {
+                return true
+            }
+            else return false
+        }
+    }
+    const isTie = () => {
+        if (isWin() === true) {
+            return false
+        }
+        else if(board.includes("") === true) {
+            return false
+        }
+        else return true
+    }
+
+    const reset = () => {
+        board.fill("")
+    }
+
+    const addMark= (index) =>  {
+        board[index] = currentPlayer.getIcon()
+    }
+
+    const displayBoard  = () => {
+        for( i=0; i<9; i++) {
+            const button = document.createElement("button")
+            document.querySelector("#gameboard").appendChild(button)
+        }
+    }
+    const displayWinner = () => {
+        let gameBoard = document.querySelector("#gameboard").children
+        gameBoard = Array.from(gameBoard)
+        gameBoard.forEach(item => {
+            item.remove()
+        })
+        let container  =  document.querySelector("container")
+        let gameWinText = document.createElement("p")
+        gameWinText.classList.add("gameWinText")
+        gameWinText.textContent = "The winner is" + currentPlayer
+        container.appendChild(gameWinText)
+    }
+
+
+
+    return {
+        board,
+        currentPlayer,
+        playerSwitch,
+        isWin,
+        isTie,
+        reset,
+        addMark,
+        displayBoard,
+        displayWinner,
+
+    }
+}
+
+
+/*const gameInitalize = (() => {
     const startButton = document.querySelector(".start")
     startButton.addEventListener("click", () => {
         const player1Input = document.querySelector("#player1")
@@ -62,113 +134,4 @@ const gameInitalize = (() => {
 
         document.querySelector(".start").remove()
     })
-})()
-
-
-/*
-const gameBoard = (() => {
-    let gameArray = ["","","","","","","","",""]
-
-    let addMark = ((item,index) => {
-        if (game.gridButtons[index].textContent === "X" || game.gridButtons[index].textContent === "O") {
-            return
-        }
-        if (game.turnCounter === true) {
-            gameBoard.gameArray[index] = "X"
-        }
-        else {
-            gameBoard.gameArray[index] = "O"
-        }
-        game.turnCounter = !game.turnCounter
-        displayController.render(gameBoard.gameArray)
-        game.gameStateCheck()
-    })
-
-    return {
-        gameArray,
-        addMark
-    }
-    
-})()
-
-const displayController = (() => {
-    const render = ((input) => {
-        let square = document.querySelector("#gameboard").children
-        for (let i = 0; i<input.length; i++) {
-            square[i].textContent = input[i]
-        }
-    })
-
-    return {render}
-})();
-
-const game = (() => {
-    let players = {
-        player1 : playerCreator("Alex"),
-        player2 : playerCreator("Josh")
-    }
-    let turnCounter = true
-    let isWon = false
-    let isTie = false
-    const gridButtons = document.querySelectorAll("grid button")
-
-    const clickEventAdder = ((item, index) => {
-        gridButtons[index].addEventListener("click", function() {
-            gameBoard.addMark(item,index)
-        })
-    })
-    gridButtons.forEach(clickEventAdder)
-
-    const gameStateCheck = (() => {
-        let letter
-        for (let i = 2; i>0; i--) {
-            if (i === 2) {
-                letter = "X"
-            }
-            if (i ===1) {
-                letter = "O"
-            }
-            if (
-                (gameBoard.gameArray[0] === letter &&
-                gameBoard.gameArray[1] === letter &&
-                gameBoard.gameArray[2] === letter) ||
-                (gameBoard.gameArray[0] === letter &&
-                gameBoard.gameArray[3] === letter &&
-                gameBoard.gameArray[6] === letter) ||
-                (gameBoard.gameArray[0] === letter &&
-                gameBoard.gameArray[4] === letter &&
-                gameBoard.gameArray[8] === letter) ||
-                (gameBoard.gameArray[1] === letter &&
-                gameBoard.gameArray[4] === letter &&
-                gameBoard.gameArray[7] === letter) ||
-                (gameBoard.gameArray[2] === letter &&
-                gameBoard.gameArray[5] === letter &&
-                gameBoard.gameArray[8] === letter) ||
-                (gameBoard.gameArray[2] === letter &&
-                gameBoard.gameArray[4] === letter &&
-                gameBoard.gameArray[6] === letter) ||
-                (gameBoard.gameArray[6] === letter &&
-                gameBoard.gameArray[7] === letter &&
-                gameBoard.gameArray[8] === letter) ||
-                (gameBoard.gameArray[3] === letter &&
-                gameBoard.gameArray[4] === letter &&
-                gameBoard.gameArray[5] === letter)
-            ) {
-
-                isWon = true
-            }
-        }
-        if (gameBoard.gameArray.includes("") === false && isWon === false) {
-            isTie = true
-        }
-    })
-    return {
-        players,
-        turnCounter,
-        gridButtons,
-        gameStateCheck,
-        isWon,
-
-    }
-})();
-*/
+})()*/
