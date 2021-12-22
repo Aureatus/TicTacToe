@@ -29,16 +29,9 @@ const gameFlow =  () => {
         else currentPlayer = player1
     }
     const isWin = () => {
-        for (let i = winConditions.length-1; i>=0; i--) {
-            if (board.includes(currentPlayer.getIcon(),winConditions[i][0]) ||
-                board.includes(currentPlayer.getIcon(),winConditions[i][1]) ||
-                board.includes(currentPlayer.getIcon(),winConditions[i][2])
-            )
-            {
-                return true
-            }
-            else return false
-        }
+        const winChecker = winConditions.find(winConditions => winConditions.every(index => board[index] === currentPlayer.getIcon()))
+        if (winChecker === undefined) return false
+        return true
     }
     const isTie = () => {
         if (isWin() === true) {
