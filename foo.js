@@ -64,12 +64,17 @@ const gameFlow =  (name1,name2) => {
     }
     
     const turn =  (index) => {
+        let roundResult = isWin()
+        if (roundResult) {
+            return
+        }
         switch (addMark(index)) {
             case true:
                 addMark(index)
-                const roundResult = isWin()
+                displayController().displayMark(board,index)
+                let roundResult = isWin()
                 if (roundResult) {
-                    displayController().displayWinner(currentPlayer)
+                    displayController().displayWinner(currentPlayer,roundResult)
                     break;
                 }
                 else if(isTie()) {
@@ -113,11 +118,17 @@ const displayController = () => {
             document.querySelector("#gameboard").appendChild(button)
         }
     }
-    const displayWinner = (currentPlayer) => {
+    const displayMark = (board,index) => {
+        let grid = document.querySelector("#gameboard")
+        let gameBoard = grid.querySelectorAll("button")
+        gameBoard[index].textContent = board[index]
+        
+    }
+    const displayWinner = (currentPlayer,roundResult) => {
         let gameBoard = document.querySelector("#gameboard").children
-        gameBoard = Array.from(gameBoard)
-        gameBoard.forEach(item => {
-            item.remove()
+        gameBoardArray = Array.from(gameBoard)
+        roundResult.forEach(item => {
+            
         })
         let container  =  document.querySelector("container")
         let gameWinText = document.createElement("p")
@@ -169,6 +180,7 @@ const displayController = () => {
         displayBoard,
         displayWinner,
         displayTie,
+        displayMark,
     }
 }
 
