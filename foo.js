@@ -1,9 +1,9 @@
-const Player = (name, icon) => {
+const Player = (name, Mark) => {
     const getName = () => name
-    const getIcon = () => icon
+    const getMark = () => Mark
     return {
         getName,
-        getIcon,
+        getMark,
     }
 }
 
@@ -30,7 +30,7 @@ const gameFlow =  (name1,name2) => {
     }
 
     const isWin = () => {
-        const winChecker = winConditions.find(winConditions => winConditions.every(index => board[index] === currentPlayer.getIcon()))
+        const winChecker = winConditions.find(winConditions => winConditions.every(index => board[index] === currentPlayer.getMark()))
         if (winChecker === undefined) return false
         else {return winChecker}
     }
@@ -49,7 +49,7 @@ const gameFlow =  (name1,name2) => {
             return false
         }
         else if (board[index] === "") {
-            board[index] = currentPlayer.getIcon()
+            board[index] = currentPlayer.getMark()
             console.log(board)
             return true
         }
@@ -155,16 +155,16 @@ const displayController = () => {
         let player1Display = document.createElement("player1Display")
         playerDisplayContainer.appendChild(player1Display)
         player1Display.append(document.createElement("playerName"))
-        player1Display.append(document.createElement("playerIcon"))
+        player1Display.append(document.createElement("playerMark"))
         player1Display.firstChild.textContent =  "Player 1:" + player1Name
-        player1Display.lastChild.textContent = "Icon:" + "X"
+        player1Display.lastChild.textContent = "Mark:" + "X"
 
         let player2Display = document.createElement("player2Display")
         playerDisplayContainer.appendChild(player2Display)
         player2Display.append(document.createElement("playerName"))
-        player2Display.append(document.createElement("playerIcon"))
+        player2Display.append(document.createElement("playerMark"))
         player2Display.firstChild.textContent =  "Player 2:" + player2Name
-        player2Display.lastChild.textContent = "Icon:" + "O"
+        player2Display.lastChild.textContent = "Mark:" + "O"
 
 
         document.querySelector("playerDisplay").style.order = 0
