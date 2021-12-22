@@ -125,10 +125,10 @@ const displayController = () => {
         
     }
     const displayWinner = (currentPlayer,roundResult) => {
-        let gameBoard = document.querySelector("#gameboard").children
-        gameBoardArray = Array.from(gameBoard)
+        let grid = document.querySelector("#gameboard")
+        let gameBoard = grid.querySelectorAll("button")
         roundResult.forEach(item => {
-            
+            gameBoard[item].classList.add("winningSquare")
         })
         let container  =  document.querySelector("container")
         let gameWinText = document.createElement("p")
