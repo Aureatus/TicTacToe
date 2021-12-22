@@ -19,7 +19,7 @@ grid {
     grid-template-columns: repeat(3,150px);
 }
 
-namedisplay  {
+playerDisplay  {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -35,4 +35,8 @@ player1Display {
 player2Display {
     display: flex;
     flex-direction: column;
+}
+
+.winningSquare {
+    color: green;
 }
