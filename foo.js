@@ -28,18 +28,15 @@ const gameFlow =  (name1,name2) => {
         }
         else currentPlayer = player1
     }
+
     const isWin = () => {
         const winChecker = winConditions.find(winConditions => winConditions.every(index => board[index] === currentPlayer.getIcon()))
         if (winChecker === undefined) return false
-        return true
+        else {return winChecker}
     }
     const isTie = () => {
-        if (isWin() === true) {
-            return false
-        }
-        else if(board.includes("") === true) {
-            return false
-        }
+        if (Boolean(isWin())) {return false}
+        if (board.includes("")) {return false}
         else return true
     }
 
@@ -48,7 +45,66 @@ const gameFlow =  (name1,name2) => {
     }
 
     const addMark= (index) =>  {
-        board[index] = currentPlayer.getIcon()
+        if (board[index] != "") {
+            return false
+        }
+        else if (board[index] === "") {
+            board[index] = currentPlayer.getIcon()
+            console.log(board)
+            return true
+        }
+    }
+
+    const initialize  = () => {
+
+        return {
+            player1,
+            player2
+        }
+    }
+    
+    const turn =  (index) => {
+        switch (addMark(index)) {
+            case true:
+                addMark(index)
+                const roundResult = isWin()
+                if (roundResult) {
+                    displayController().displayWinner(currentPlayer)
+                    break;
+                }
+                else if(isTie()) {
+                    displayController().displayTie()
+                }
+                playerSwitch()
+                break;
+            case false:
+                break;
+        }
+    }
+
+
+    return {
+        board,
+        currentPlayer,
+        initialize,
+        playerSwitch,
+        isWin,
+        isTie,
+        reset,
+        addMark,
+        turn,
+
+
+    }
+}
+
+const displayController = () => {
+
+    const nameInputRemover = () => {
+        document.querySelector("nameInputs").remove()
+    }
+    const startButtonRemover = () => {
+        document.querySelector(".start").remove()
     }
 
     const displayBoard  = () => {
@@ -57,7 +113,7 @@ const gameFlow =  (name1,name2) => {
             document.querySelector("#gameboard").appendChild(button)
         }
     }
-    const displayWinner = () => {
+    const displayWinner = (currentPlayer) => {
         let gameBoard = document.querySelector("#gameboard").children
         gameBoard = Array.from(gameBoard)
         gameBoard.forEach(item => {
@@ -69,25 +125,54 @@ const gameFlow =  (name1,name2) => {
         gameWinText.textContent = "The winner is" + currentPlayer.getName()
         container.appendChild(gameWinText)
     }
+    const displayTie = () => {
+        let gameBoard = document.querySelector("#gameboard").children
+        gameBoard = Array.from(gameBoard)
+        gameBoard.forEach(item => {
+            item.remove()
+        })
+        let container  =  document.querySelector("container")
+        let gameTieText = document.createElement("p")
+        gameTieText.classList.add("gameTieText")
+        gameTieText.textContent = "The game is a tie!"
+        container.appendChild(gameTieText)
+    }
+    const nameDisplayer = (player1Name, player2Name) => {
+        let playerDisplayContainer = document.createElement("playerDisplay")
+        document.querySelector("container").append(playerDisplayContainer)
+
+        let player1Display = document.createElement("player1Display")
+        playerDisplayContainer.appendChild(player1Display)
+        player1Display.append(document.createElement("playerName"))
+        player1Display.append(document.createElement("playerIcon"))
+        player1Display.firstChild.textContent =  "Player 1:" + player1Name
+        player1Display.lastChild.textContent = "Icon:" + "X"
+
+        let player2Display = document.createElement("player2Display")
+        playerDisplayContainer.appendChild(player2Display)
+        player2Display.append(document.createElement("playerName"))
+        player2Display.append(document.createElement("playerIcon"))
+        player2Display.firstChild.textContent =  "Player 2:" + player2Name
+        player2Display.lastChild.textContent = "Icon:" + "O"
 
 
+        document.querySelector("playerDisplay").style.order = 0
+        document.querySelector("gamestatebuttons").style.order = 1
+        document.querySelector("grid").style.order = 2
+
+    }
 
     return {
-        board,
-        currentPlayer,
-        playerSwitch,
-        isWin,
-        isTie,
-        reset,
-        addMark,
+        nameInputRemover,
+        startButtonRemover,
+        nameDisplayer,
         displayBoard,
         displayWinner,
-
+        displayTie,
     }
 }
 
-
-/*const gameInitalize = (() => {
+const game = (() => {
     const startButton = document.querySelector(".start")
     startButton.addEventListener("click", () => {
         const player1Input = document.querySelector("#player1")
@@ -100,31 +185,18 @@ const gameFlow =  (name1,name2) => {
         if (!player2Name.trim()) {
             return
         }
-        TicTacToe(player1Name, player2Name)
+        displayController().nameDisplayer(player1Name,player2Name)
+        displayController().nameInputRemover()
+        displayController().startButtonRemover()
+        displayController().displayBoard()
 
-        document.querySelector("nameInputs").remove()
-        let playerDisplayContainer = document.createElement("playerDisplay")
-        document.querySelector("container").append(playerDisplayContainer)
-
-        let player1Display = document.createElement("player1Display")
-        playerDisplayContainer.appendChild(player1Display)
-        player1Display.append(document.createElement("playerName"))
-        player1Display.append(document.createElement("playerIcon"))
-        player1Display.firstChild.textContent =  "Player 1:" + player1.name
-        player1Display.lastChild.textContent = "Icon:" + player1.icon
-
-        let player2Display = document.createElement("player2Display")
-        playerDisplayContainer.appendChild(player2Display)
-        player2Display.append(document.createElement("playerName"))
-        player2Display.append(document.createElement("playerIcon"))
-        player2Display.firstChild.textContent =  "Player 2:" + player2.name
-        player2Display.lastChild.textContent = "Icon:" + player2.icon
-
-
-        document.querySelector("playerDisplay").style.order = 0
-        document.querySelector("gamestatebuttons").style.order = 1
-        document.querySelector("grid").style.order = 2
-
-        document.querySelector(".start").remove()
+        const TicTacToe = gameFlow(player1Name,player2Name)
+        const gameBoardButtons = document.querySelectorAll("grid button")
+        const clickEventAdder =  ((item,index) => {
+            gameBoardButtons[index].addEventListener("click", () => {
+                TicTacToe.turn(index)
+            })
+        })
+        gameBoardButtons.forEach(clickEventAdder)
     })
-})()*/
+})()
