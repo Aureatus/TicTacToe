@@ -7,9 +7,9 @@ const Player = (name, icon) => {
     }
 }
 
-const gameFlow =  () => {
-    const player1 = Player("Alex","X")
-    const player2 = Player("Josh","O")
+const gameFlow =  (name1,name2) => {
+    const player1 = Player(name1,"X")
+    const player2 = Player(name2,"O")
     let board = new Array(9).fill("")
     const winConditions = [
         [0,1,2],
@@ -66,7 +66,7 @@ const gameFlow =  () => {
         let container  =  document.querySelector("container")
         let gameWinText = document.createElement("p")
         gameWinText.classList.add("gameWinText")
-        gameWinText.textContent = "The winner is" + currentPlayer
+        gameWinText.textContent = "The winner is" + currentPlayer.getName()
         container.appendChild(gameWinText)
     }
 
