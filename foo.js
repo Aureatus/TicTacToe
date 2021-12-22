@@ -41,7 +41,20 @@ const gameFlow =  (name1,name2) => {
     }
 
     const reset = () => {
+        displayController().boardClearer()
+        let roundResult = isWin()
+        if (Boolean(roundResult)) {
+            displayController().winnerTextDeletion()
+        }
+        else if(isTie()) {
+            displayController().tieTextDeletion()
+        }
         board.fill("")
+        currentPlayer = player1
+        const winningSquares = document.querySelectorAll(".winningSquare")
+        winningSquares.forEach(Element => {
+            Element.classList.remove("winningSquare")
+        })
     }
 
     const addMark= (index) =>  {
@@ -50,7 +63,6 @@ const gameFlow =  (name1,name2) => {
         }
         else if (board[index] === "") {
             board[index] = currentPlayer.getMark()
-            console.log(board)
             return true
         }
     }
@@ -112,6 +124,21 @@ const displayController = () => {
         document.querySelector(".start").remove()
     }
 
+    const boardClearer = () => {
+        let grid = document.querySelector("#gameboard")
+        let gameBoard = grid.querySelectorAll("button")
+        gameBoard.forEach(Element => {
+            Element.textContent = ""
+        })
+    }
+    const winnerTextDeletion = () => {
+        let gameWinText = document.querySelector(".gameWinText")
+        gameWinText.remove()
+    }
+    const tieTextDeletion = () => {
+        let tieWinText = document.querySelector(".gameTieText")
+        tieWinText.remove()
+    }
     const displayBoard  = () => {
         for( i=0; i<9; i++) {
             const button = document.createElement("button")
@@ -133,15 +160,10 @@ const displayController = () => {
         let container  =  document.querySelector("container")
         let gameWinText = document.createElement("p")
         gameWinText.classList.add("gameWinText")
-        gameWinText.textContent = "The winner is" + currentPlayer.getName()
+        gameWinText.textContent = "The winner is " + currentPlayer.getName()
         container.appendChild(gameWinText)
     }
     const displayTie = () => {
-        let gameBoard = document.querySelector("#gameboard").children
-        gameBoard = Array.from(gameBoard)
-        gameBoard.forEach(item => {
-            item.remove()
-        })
         let container  =  document.querySelector("container")
         let gameTieText = document.createElement("p")
         gameTieText.classList.add("gameTieText")
@@ -176,11 +198,15 @@ const displayController = () => {
     return {
         nameInputRemover,
         startButtonRemover,
+        boardClearer,
         nameDisplayer,
         displayBoard,
         displayWinner,
         displayTie,
         displayMark,
+        winnerTextDeletion,
+        tieTextDeletion,
+
     }
 }
 
@@ -203,6 +229,10 @@ const game = (() => {
         displayController().displayBoard()
 
         const TicTacToe = gameFlow(player1Name,player2Name)
+        const restartButton = document.querySelector(".restart")
+        restartButton.addEventListener("click", () => {
+            TicTacToe.reset()
+        })
         const gameBoardButtons = document.querySelectorAll("grid button")
         const clickEventAdder =  ((item,index) => {
             gameBoardButtons[index].addEventListener("click", () => {
