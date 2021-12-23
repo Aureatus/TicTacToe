@@ -178,15 +178,15 @@ const displayController = () => {
         playerDisplayContainer.appendChild(player1Display)
         player1Display.append(document.createElement("playerName"))
         player1Display.append(document.createElement("playerMark"))
-        player1Display.firstChild.textContent =  "Player 1:" + player1Name
-        player1Display.lastChild.textContent = "Mark:" + "X"
+        player1Display.firstChild.textContent =  "Player 1: " + player1Name
+        player1Display.lastChild.textContent = "Mark: " + "X "
 
         let player2Display = document.createElement("player2Display")
         playerDisplayContainer.appendChild(player2Display)
         player2Display.append(document.createElement("playerName"))
         player2Display.append(document.createElement("playerMark"))
-        player2Display.firstChild.textContent =  "Player 2:" + player2Name
-        player2Display.lastChild.textContent = "Mark:" + "O"
+        player2Display.firstChild.textContent =  "Player 2: " + player2Name
+        player2Display.lastChild.textContent = "Mark: " + "O "
 
 
         document.querySelector("playerDisplay").style.order = 0
